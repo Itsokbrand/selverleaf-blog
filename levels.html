@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Levels | Selver Edge Class</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --secondary: #3f37c9;
+      --accent: #f72585;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --success: #4cc9f0;
+      --warning: #f8961e;
+      --danger: #ef233c;
+      --info: #560bad;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.08);
+      --shadow-xl: 0 15px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #333;
+      padding: 20px;
+      scroll-behavior: smooth;
+      transition: var(--transition);
+    }
+
+    body.dark-mode {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #f0f0f0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 60px 20px;
+      text-align: center;
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z"></path></svg>');
+      background-size: cover;
+    }
+
+    header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: white;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    header p {
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--dark);
+      padding: 16px;
+      text-align: center;
+      margin: 20px 0;
+      border-radius: 50px;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 8px 16px;
+      border-radius: 50px;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      background: rgba(255,255,255,0.1);
+    }
+
+    nav a.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Button Styles */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #d81159;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Level Cards */
+    .levels-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .level-card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      border-top: 5px solid var(--primary);
+    }
+
+    .dark-mode .level-card {
+      background: #1f2937;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .level-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .level-card.beginner {
+      border-top-color: var(--success);
+    }
+
+    .level-card.intermediate {
+      border-top-color: var(--warning);
+    }
+
+    .level-card.advanced {
+      border-top-color: var(--primary);
+    }
+
+    .level-card.pronunciation {
+      border-top-color: var(--info);
+    }
+
+    .level-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dark);
+    }
+
+    .dark-mode .level-title {
+      color: white;
+    }
+
+    .level-card.beginner .level-title {
+      color: var(--success);
+    }
+
+    .level-card.intermediate .level-title {
+      color: var(--warning);
+    }
+
+    .level-card.advanced .level-title {
+      color: var(--primary-light);
+    }
+
+    .level-card.pronunciation .level-title {
+      color: var(--info);
+    }
+
+    .topic {
+      margin-bottom: 15px;
+    }
+
+    .topic-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: var(--transition);
+    }
+
+    .dark-mode .topic-header {
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+
+    .topic-header:hover {
+      color: var(--primary);
+    }
+
+    .topic-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topic-icon {
+      font-size: 1.2rem;
+    }
+
+    .topic-content {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease-out;
+      padding: 0 15px;
+      background-color: rgba(0,0,0,0.02);
+      border-radius: 8px;
+      margin-top: 8px;
+      white-space: pre-line;
+    }
+
+    .dark-mode .topic-content {
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .topic.active .topic-content {
+      max-height: 500px;
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .topic-content ul {
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .topic-content li {
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .topic-content li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 50px;
+      margin: 30px 0;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .dark-mode .progress-container {
+      background-color: #2d3748;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      border-radius: 50px;
+      width: 0;
+      transition: width 1s ease-in-out;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 50px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      header p {
+        font-size: 1.1rem;
+      }
+      
+      nav a {
+        margin: 0 8px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .levels-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Toggle Switch */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-label {
+      margin: 0 10px;
+      font-weight: 600;
+    }
+
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      transition: var(--transition);
+      z-index: 99;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+      background: #d81159;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-envelope floating"></i> Selverleaf Edge Class</h1>
+      <p>Master English with our comprehensive learning platform</p>
+      
+      <div class="toggle-container">
+        <span class="toggle-label"><i class="fas fa-sun"></i></span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="modeToggle">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label"><i class="fas fa-moon"></i></span>
+      </div>
+    </header>
+
+    <nav>
+      <a href="index.html" ><i class="fas fa-home"></i> Home</a>
+      <a href="levels.html" class="active"><i class="fas fa-layer-group"></i> Levels</a>
+      <a href="aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
+      <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+    </nav>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="button-group">
+      <button class="btn btn-primary" onclick="showAll()">
+        <i class="fas fa-unlock"></i> Show All
+      </button>
+      <button class="btn btn-secondary" onclick="hideAll()">
+        <i class="fas fa-lock"></i> Hide All
+      </button>
+      <button class="btn btn-outline" onclick="markCompleted()">
+        <i class="fas fa-check-circle"></i> Mark as Completed
+      </button>
+    </div>
+
+    <div class="levels-container">
+      <!-- Beginner Level -->
+      <div class="level-card beginner">
+        <h2 class="level-title"><i class="fas fa-seedling"></i> Beginner Level (A1-A2)</h2>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-comment-dots topic-icon"></i> Speaking & Listening
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Greetings & Introductions</li>
+              <li>Asking for name, age, country</li>
+              <li>Numbers, days, months, time</li>
+              <li>Everyday expressions (e.g., "How are you?")</li>
+              <li>Ordering food or drinks</li>
+              <li>Giving simple directions</li>
+              <li>Describing people and places</li>
+              <li>Basic telephone conversations</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-book topic-icon"></i> Vocabulary
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Colors, family, jobs, school objects</li>
+              <li>Daily routines and actions</li>
+              <li>Food, clothes, weather</li>
+              <li>Home and furniture</li>
+              <li>Animals and nature</li>
+              <li>Transportation and travel</li>
+              <li>Hobbies and interests</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-brain topic-icon"></i> Grammar
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Subject pronouns (I, you, he…)</li>
+              <li>Verb to be (am/is/are)</li>
+              <li>Simple Present Tense</li>
+              <li>There is / There are</li>
+              <li>Articles: a / an / the</li>
+              <li>Plurals</li>
+              <li>Prepositions of place (on, under…)</li>
+              <li>Can / Can't</li>
+              <li>Possessive adjectives (my, your…)</li>
+              <li>Present Continuous Tense</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intermediate Level -->
+      <div class="level-card intermediate">
+        <h2 class="level-title"><i class="fas fa-chart-line"></i> Intermediate Level (B1-B2)</h2>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-comments topic-icon"></i> Conversations
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Talking about past experiences</li>
+              <li>Making future plans</li>
+              <li>Expressing opinions</li>
+              <li>Giving advice and suggestions</li>
+              <li>Making comparisons</li>
+              <li>Shopping, traveling, health</li>
+              <li>Discussing news and events</li>
+              <li>Debating simple topics</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-brain topic-icon"></i> Grammar
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Present Simple vs. Continuous</li>
+              <li>Past Simple / Past Continuous</li>
+              <li>Present Perfect</li>
+              <li>Future forms (will, going to, present continuous)</li>
+              <li>Countable / Uncountable nouns</li>
+              <li>Modal verbs (must, should, might…)</li>
+              <li>Comparatives & Superlatives</li>
+              <li>If Clauses (Type 1 & 2)</li>
+              <li>Question tags</li>
+              <li>Reported speech (basic)</li>
+              <li>Used to / Would for past habits</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-pen-fancy topic-icon"></i> Writing Skills
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Formal and informal emails</li>
+              <li>Writing opinions and essays</li>
+              <li>Storytelling and narratives</li>
+              <li>Descriptive writing</li>
+              <li>Summarizing information</li>
+              <li>Writing reviews</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advanced Level -->
+      <div class="level-card advanced">
+        <h2 class="level-title"><i class="fas fa-rocket"></i> Advanced Level (C1-C2)</h2>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-user-tie topic-icon"></i> Professional English
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Debate and argument building</li>
+              <li>Writing formal letters/emails</li>
+              <li>Understanding idioms and slang</li>
+              <li>Business English</li>
+              <li>Academic English (essays, presentations)</li>
+              <li>English for Exams (TOEFL, IELTS, Cambridge)</li>
+              <li>Negotiation and persuasion</li>
+              <li>Public speaking techniques</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-brain topic-icon"></i> Advanced Grammar
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Passive voice (all tenses)</li>
+              <li>Mixed conditionals</li>
+              <li>Advanced reported speech</li>
+              <li>Inversion (Never had I seen…)</li>
+              <li>Cleft sentences (What I love is...)</li>
+              <li>Subjunctive mood</li>
+              <li>Relative clauses</li>
+              <li>Gerunds vs Infinitives (advanced use)</li>
+              <li>Articles (advanced rules)</li>
+              <li>Advanced modals (might have, should have…)</li>
+              <li>Ellipsis and substitution</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-globe topic-icon"></i> Cultural Context
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Understanding cultural references</li>
+              <li>Regional accents and dialects</li>
+              <li>Literature analysis</li>
+              <li>Media and journalism</li>
+              <li>Political and economic discourse</li>
+              <li>Scientific and technical writing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pronunciation -->
+      <div class="level-card pronunciation">
+        <h2 class="level-title"><i class="fas fa-volume-up"></i> Pronunciation & Listening</h2>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-microphone topic-icon"></i> Pronunciation
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Word stress & sentence stress</li>
+              <li>Intonation patterns</li>
+              <li>Minimal pairs (ship/sheep)</li>
+              <li>Connected speech and linking</li>
+              <li>Accent reduction</li>
+              <li>Phonetic alphabet</li>
+              <li>Common pronunciation mistakes</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-headphones topic-icon"></i> Listening Skills
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Understanding different accents</li>
+              <li>Listening for gist and detail</li>
+              <li>Note-taking techniques</li>
+              <li>Following lectures and talks</li>
+              <li>Understanding fast speech</li>
+              <li>Recognizing tone and attitude</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="topic" onclick="toggleTopic(this)">
+          <div class="topic-header">
+            <div class="topic-title">
+              <i class="fas fa-film topic-icon"></i> Media Resources
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="topic-content">
+            <ul>
+              <li>Recommended podcasts</li>
+              <li>YouTube channels for learning</li>
+              <li>Movies and TV shows by level</li>
+              <li>News sources for ESL learners</li>
+              <li>Audiobooks and storytelling</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+      <div class="footer-links">
+      <a href="aboutus.html">About Us</a>
+      <a href="https://www.linkedin.com/in/rym-tacine?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">Linkedin</a>
+      <a href="https://www.instagram.com/selverleaf_edge?igsh=MWN0bHdlZGJoaGFkcw==" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@selverleaf_edge?_t=ZM-8xdrlSNtWGk&_r=1" target="_blank">Tiktok</a>
+      <a href="contact.html">Contact</a>
+    </div>
+      <p class="copyright">&copy; 2025 Selver Edge Class. All rights reserved. | Learn English Creatively </p>
+    </footer>
+  </div>
+
+  <div class="fab" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Toggle topics
+    function toggleTopic(element) {
+      element.classList.toggle('active');
+      const icon = element.querySelector('.fa-chevron-down');
+      if (element.classList.contains('active')) {
+        icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      } else {
+        icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+      }
+    }
+
+    // Show all topics
+    function showAll() {
+      document.querySelectorAll('.topic').forEach(topic => {
+        topic.classList.add('active');
+        const icon = topic.querySelector('.fa-chevron-down');
+        if (icon) icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      });
+    }
+
+    // Hide all topics
+    function hideAll() {
+      document.querySelectorAll('.topic').forEach(topic => {
+        topic.classList.remove('active');
+        const icon = topic.querySelector('.fa-chevron-up');
+        if (icon) icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+      });
+    }
+
+    // Mark as completed (progress bar)
+    function markCompleted() {
+      const progressBar = document.getElementById('progressBar');
+      progressBar.style.width = '75%'; // Simulate 75% completion
+      
+      // Show completion message
+      setTimeout(() => {
+        alert('Great job! You\'ve completed 75% of the beginner level!');
+      }, 1000);
+    }
+
+    // Dark/Light mode toggle
+    const modeToggle = document.getElementById('modeToggle');
+    modeToggle.addEventListener('change', function() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', this.checked);
+    });
+
+    // Check for saved user preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      modeToggle.checked = true;
+    }
+
+    // Scroll to top button
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Show/hide scroll to top button based on scroll position
+    window.addEventListener('scroll', function() {
+      const fab = document.querySelector('.fab');
+      if (window.pageYOffset > 300) {
+        fab.style.display = 'flex';
+      } else {
+        fab.style.display = 'none';
+      }
+    });
+
+    // Initialize with some topics open
+    document.addEventListener('DOMContentLoaded', function() {
+      // Open first topic of each level
+      const firstTopics = document.querySelectorAll('.level-card .topic:first-child');
+      firstTopics.forEach(topic => {
+        topic.classList.add('active');
+        const icon = topic.querySelector('.fa-chevron-down');
+        if (icon) icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      });
+      
+      // Animate progress bar on load
+      setTimeout(() => {
+        document.getElementById('progressBar').style.width = '25%';
+      }, 500);
+    });
+  </script>
+</body>
+</html>
+
+
+
+

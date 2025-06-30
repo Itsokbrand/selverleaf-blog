@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Selver Edge Class | English Learning Blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #4895ef;
+      --secondary: #3f37c9;
+      --accent: #f72585;
+      --dark: #1a1a2e;
+      --light: #f8f9fa;
+      --success: #4cc9f0;
+      --warning: #f8961e;
+      --danger: #ef233c;
+      --info: #560bad;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 20px rgba(0,0,0,0.1), 0 6px 6px rgba(0,0,0,0.08);
+      --shadow-xl: 0 15px 25px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      color: #f0f0f0;
+      line-height: 1.7;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    body.light-mode {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #383838;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      text-align: center;
+      padding: 70px 20px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl);
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z"></path></svg>');
+      background-size: cover;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+      position: relative;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    header p {
+      font-size: 1.4rem;
+      max-width: 700px;
+      margin: 0 auto 20px;
+      position: relative;
+      opacity: 0.9;
+    }
+
+    /* Navigation */
+    nav {
+      background: var(--dark);
+      padding: 16px;
+      text-align: center;
+      border-radius: 50px;
+      box-shadow: var(--shadow-md);
+      margin: 30px auto;
+      max-width: 800px;
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+      background: rgba(255,255,255,0.1);
+    }
+
+    nav a.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Blog Posts */
+    .posts-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .post {
+      background: rgba(31, 41, 55, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .light-mode .post {
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow-md);
+    }
+
+    .post:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .post-image {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .post:hover .post-image img {
+      transform: scale(1.05);
+    }
+
+    .post-content {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--primary-light);
+    }
+
+    .light-mode .post h2 {
+      color: var(--primary);
+    }
+
+    .post p {
+      font-size: 1.1rem;
+      color: #d0d0d0;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .light-mode .post p {
+      color: #555;
+    }
+
+    .post-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .light-mode .post-meta {
+      color: #737373;
+    }
+
+    .post-category {
+      background: var(--accent);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 15px;
+      color: var(--primary-light);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      align-self: flex-start;
+    }
+
+    .light-mode .read-more {
+      color: var(--primary);
+    }
+
+    .read-more:hover {
+      color: var(--accent);
+    }
+
+    .read-more i {
+      margin-left: 5px;
+      transition: var(--transition);
+    }
+
+    .read-more:hover i {
+      transform: translateX(3px);
+    }
+
+    /* Featured Post */
+    .featured-post {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+
+    .featured-post .post-image {
+      height: 100%;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      margin: 50px 0;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .newsletter h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+
+    .newsletter p {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      border-radius: 50px 0 0 50px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .newsletter-form button {
+      padding: 15px 25px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 0 50px 50px 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .newsletter-form button:hover {
+      background: #d81159;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 40px;
+      margin-top: 50px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .social-links a {
+      color: white;
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Dark/Light Mode Toggle */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .toggle-label {
+      margin: 0 10px;
+      font-weight: 600;
+    }
+
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      transition: var(--transition);
+      z-index: 99;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+      background: #d81159;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      header p {
+        font-size: 1.1rem;
+      }
+      
+      nav a {
+        margin: 0 8px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .featured-post {
+        grid-template-columns: 1fr;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+      }
+      
+      .newsletter-form input,
+      .newsletter-form button {
+        border-radius: 50px;
+        width: 100%;
+      }
+      
+      .newsletter-form button {
+        margin-top: 10px;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fas fa-graduation-cap floating"></i> Selverleaf Edge Class</h1>
+    <p>Your Creative Space for Learning English with Passion</p>
+    
+    <div class="toggle-container">
+      <span class="toggle-label"><i class="fas fa-sun"></i></span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="modeToggle">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label"><i class="fas fa-moon"></i></span>
+
+    </div>
+  </header>
+
+  <nav>
+    <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="levels.html"><i class="fas fa-layer-group"></i> Levels</a>
+    <a href="aboutus.html"><i class="fas fa-info-circle"></i> About Us</a>
+<a href="contact.html"><i class="fas fa-envelope"></i> Contact </a>
+  </nav>
+
+  <div class="container">
+    <div class="posts-container">
+      <!-- Featured Post -->
+      <article class="post featured-post">
+        <div class="post-image">
+          <img src="english logo.jpg" alt="English Learning">
+        </div>
+        <div class="post-content">
+          <span class="post-category">Featured</span>
+          <h2>🚀 The Ultimate Guide to Mastering English in 2025</h2>
+          <p>Discover the most effective strategies, tools, and techniques to achieve fluency in English this year. Our comprehensive guide covers everything from daily habits to advanced learning methodologies.</p>
+          <div class="post-meta">
+            <span><i class="far fa-clock"></i> 8 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Regular Posts -->
+      <article class="post">
+        <div class="post-image">
+          <img src="mll.jpg" alt="Vocabulary">
+        </div>
+        <div class="post-content">
+          <span class="post-category">Vocabulary</span>
+          <h2>✨ How to Master English Vocabulary</h2>
+          <p>Discover smart techniques to grow your vocabulary faster. Flashcards, context usage, and memory tricks that actually work!</p>
+          <div class="post-meta">
+            <span><i class="far fa-clock"></i> 5 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-image">
+          <img src="dic.jpg" alt="Speaking">
+        </div>
+        <div class="post-content">
+          <span class="post-category">Speaking</span>
+          <h2>🗣️ 10 Techniques to Improve Your English Pronunciation</h2>
+          <p>Struggling with pronunciation? Learn proven methods to sound more like a native speaker, including tongue twisters, shadowing technique, and accent reduction tips.</p>
+          <div class="post-meta">
+            <span><i class="far fa-clock"></i> 9 min read</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="post-image">
+          <img src="tts.jpg" alt="Writing">
+        </div>
+        <div class="post-content">
+          <span class="post-category">Writing</span>
+          <h2>✍️ How to Write Better Emails in English</h2>
+          <p>Master the art of professional and casual email writing with our templates, common phrases, and cultural tips to avoid misunderstandings in business communication.</p>
+          <div class="post-meta">
+            <span><i class="far fa-clock"></i> 6 min read</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="newsletter">
+      <h3>📬 Join Our Learning Community</h3>
+      <p>Join Our Learning Community and take your skills to the next level! Whether
+         you're a beginner or looking to advance, our supportive and interactive environment
+          is the perfect place to grow. Connect with like-minded learners, share your progress, 
+          get expert feedback, and access valuable resources designed to help you succeed. At Selver
+           Edge Class, you're never learning alone — you're part of a passionate community that motivates,
+            inspires, and empowers each other every step of the way.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+    </div>
+  <div class="footer-links">
+      <a href="aboutus.html">About Us</a>
+      <a href="https://www.linkedin.com/in/rym-tacine?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank">Linkedin</a>
+      <a href="https://www.instagram.com/selverleaf_edge?igsh=MWN0bHdlZGJoaGFkcw==" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@selverleaf_edge?_t=ZM-8xdrlSNtWGk&_r=1" target="_blank">Tiktok</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <p class="copyright">&copy; 2025 Selver Edge Class. All rights reserved. | Learn English Creatively </p>
+  </footer>
+
+  <div class="fab" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Dark/Light mode toggle
+    const modeToggle = document.getElementById('modeToggle');
+    modeToggle.addEventListener('change', function() {
+  // الآن: عند التفعيل (checked) = الوضع الداكن
+  document.body.classList.toggle('light-mode', !this.checked);
+  localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+});
+
+// عند تحميل الصفحة
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.remove('light-mode');
+  modeToggle.checked = true;
+} else {
+  document.body.classList.add('light-mode');
+  modeToggle.checked = false;
+}
+
+
+    // Scroll to top button
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Show/hide scroll to top button based on scroll position
+    window.addEventListener('scroll', function() {
+      const fab = document.querySelector('.fab');
+      if (window.pageYOffset > 300) {
+        fab.style.display = 'flex';
+      } else {
+        fab.style.display = 'none';
+      }
+    });
+
+    // Animate posts on load
+    document.addEventListener('DOMContentLoaded', function() {
+      const posts = document.querySelectorAll('.post');
+      posts.forEach((post, index) => {
+        setTimeout(() => {
+          post.style.animation = 'fadeIn 0.5s ease-out forwards';
+        }, index * 100);
+      });
+      
+      // Check scroll position on load
+      if (window.pageYOffset > 300) {
+        document.querySelector('.fab').style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
