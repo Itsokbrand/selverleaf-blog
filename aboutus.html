@@ -392,6 +392,14 @@
       width: 0;
       height: 0;
     }
+    .container {
+  padding: 0 15px;
+}
+
+.about-container {
+  gap: 20px;
+}
+
 
     .slider {
       position: absolute;
@@ -456,32 +464,74 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
-      
-      header p {
-        font-size: 1.1rem;
-      }
-      
-      nav a {
-        margin: 0 8px;
-        padding: 6px 12px;
-        font-size: 0.9rem;
-      }
-      
-      .about-card h2 {
-        font-size: 1.8rem;
-      }
-      
-      .team-members {
-        grid-template-columns: 1fr;
-      }
-      
-      .stats-container {
-        grid-template-columns: 1fr;
-      }
+   @media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  nav a {
+    margin: 4px 8px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .about-card {
+    padding: 20px;
+  }
+
+  .about-card h2 {
+    font-size: 1.4rem;
+  }
+
+  .about-card p {
+    font-size: 0.95rem;
+  }
+
+  .member-photo {
+    width: 90px;
+    height: 90px;
+  }
+     .team-member img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+  .member-name {
+    font-size: 1rem;
+  }
+
+  .member-role {
+    font-size: 0.9rem;
+  }
+
+  .member-bio {
+    font-size: 0.85rem;
+  }
+
+  .social-links a {
+    font-size: 1rem;
+  }
+
+  .footer-links a,
+  .social-links-footer a {
+    font-size: 0.9rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+  }
+}
+
+  
     }
   </style>
 </head>
@@ -536,9 +586,11 @@
         <p>We're committed to breaking down language barriers and empowering our students to communicate confidently in English for academic, professional, and personal success.</p>
       </div>
 <div class="about-card">
-  <h2><i cass="fas fa-bullseyel"></i> Class’s Location</h2>
-   <ul style="margin-left: 20px; margin-bottom: 15px; line-height: 1.7;"></ul>
-   <li><strong>📍Our class is held at</strong>  the Wilaya of Boumerdess , Thenia.  </li>
+ <h2><i class="fas fa-map-marker-alt"></i> Class’s Location</h2>
+   <ul style="margin-left: 20px; margin-bottom: 15px; line-height: 1.7;">
+  <li><strong>📍Our class is held at</strong> the Wilaya of Boumerdess , Thenia.</li>
+</ul>
+
 
 
 </div>
