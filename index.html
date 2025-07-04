@@ -470,65 +470,90 @@ hr {
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      .box {
+@media (max-width: 480px) {
+  body {
     padding: 10px;
     font-size: 14px;
-    flex-direction: column;
-    width: 100%;
   }
-      nav a {
-    padding: 6px 10px;
+
+  header {
+    padding: 40px 15px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  .posts-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .post h2 {
+    font-size: 1.3rem;
+  }
+
+  .post p {
+    font-size: 1rem;
+  }
+
+  .post-category {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+  }
+
+  .newsletter {
+    padding: 20px;
+  }
+
+  .newsletter h3 {
+    font-size: 1.3rem;
+  }
+
+  .newsletter p {
+    font-size: 0.95rem;
+  }
+
+  .newsletter-form input,
+  .newsletter-form button {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+
+  footer {
+    padding: 20px;
+  }
+
+  .footer-links,
+  .social-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  nav a {
+    min-width: auto;
     font-size: 0.85rem;
   }
-      header h1 {
-        font-size: 2.5rem;
-      }
-      
-      header p {
-        font-size: 1.1rem;
-      }
-      
-      nav a {
-        margin: 0 8px;
-        padding: 6px 12px;
-        font-size: 0.9rem;
-         white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 100px; 
-      }
-    
-      nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-      nav a i {
-  margin-right: 5px;
+
+  .fab {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    bottom: 20px;
+    right: 20px;
+  }
 }
 
-
-      .featured-post {
-        grid-template-columns: 1fr;
-      }
-      
-      .newsletter-form {
-        flex-direction: column;
-      }
-      
-      .newsletter-form input,
-      .newsletter-form button {
-        border-radius: 50px;
-        width: 100%;
-      }
-      
-      .newsletter-form button {
-        margin-top: 10px;
-      }
-    }
 
     /* Animations */
     @keyframes fadeIn {
